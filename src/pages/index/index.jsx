@@ -19,10 +19,10 @@ class Index extends Component {
 
   componentDidMount () {
     console.log('this.props ---', this.props)
-    this.props.dispatch({
-      type: 'global/fetchGlobal',
-      payload: '憨憨脚手架搞劳资一天',
-    })
+    // this.props.dispatch({
+    //   type: 'global/fetchGlobal',
+    //   payload: '憨憨脚手架搞劳资一天',
+    // })
     // this.props.dispatch({
     //   type: 'global/increaseNumberBy',
     //   payload: {

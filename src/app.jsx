@@ -1,9 +1,10 @@
 /* eslint-disable react/sort-comp */
 import Taro, { Component } from '@tarojs/taro'
 import { Provider } from '@tarojs/redux'
-import Index from './pages/index'
 
 import dva from './utils/dva'
+import Index from './pages/index'
+import models from './models'
 import './app.less'
 
 // 如果需要在 h5 环境中开启 React Devtools
@@ -15,43 +16,13 @@ import './app.less'
 const dvaApp = dva.createApp({
   initialState:{},
   models: [
-    {
-      namespace: 'global',
-      state: {
-        number: 0,
-      },
-      subscriptions: {
-        // setup({dispatch, history}) {
-        //   console.log(dispatch)
-        //   console.log(history) // undefined -- no router integrated
-        // }
-      },
-      effects: {
-        *fetchGlobal({payload}, { call, put, select }) {
-          // console.log(action, call, put , select)
-          yield put({
-            type: 'fetchGlobalSuccess',
-            payload,
-          })
-        }
-      },
-      reducers: {
-        fetchGlobalSuccess(state, {payload}) {
-          console.log('-----------after effect-----------', payload)
-          return {
-            ...state,
-            payload,
-          }
-        },
-        increaseNumberBy(state, {payload}) {
-          return {
-            ...state,
-            number: state.number + payload.number
-          }
-        }
-      }
-    },
+    ...models,
   ],
+})
+
+dvaApp.dispatch({
+  type: 'global/injectAppInstance',
+  payload: dvaApp,
 })
 
 const store = dvaApp.getStore()
@@ -60,6 +31,7 @@ class App extends Component {
 
   config = {
     pages: [
+      'pages/home/index',
       'pages/index/index'
     ],
     window: {
